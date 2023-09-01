@@ -41,4 +41,4 @@ output_pdf = os.path.join(output_folder, "docs.pdf")
 # converter.convert(f'file:///{html_path}', output_pdf)
 
 import pdfkit
-pdfkit.from_file(html_path, output_pdf, verbose=True, options={"enable-local-file-access": True})
+pdfkit.from_file(html_path, output_pdf, verbose=True, options={"enable-local-file-access": True}, pdfkit.configuration(wkhtmltopdf="path_to_exe"))
