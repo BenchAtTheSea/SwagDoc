@@ -1,3 +1,6 @@
+# Silent Contributors
+https://github.com/sara-ghiglione
+
 # SwagDoc
 A simple python interface to generate offline html and pdf documentation for swagger interfaces.
 
