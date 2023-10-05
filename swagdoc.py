@@ -2,19 +2,37 @@ import os
 import zipfile
 import requests
 import json
-
 import argparse
+import logging
+DEFAULT_OUTPUT_FOLDER = "_output"
+DEFAULT_SWAGGER_JSON_URL = "https://petstore.swagger.io/v2/swagger.json"
+
+def _check_args(swagger:str, output_folder:str):
+    if not swagger:
+        logging.info("no swagger json endpoint was provided.")
+        logging.info (f"Using demo mode targetting \"{DEFAULT_SWAGGER_JSON_URL}\"")
+        logging.info ("To provide your desired swagger endpoint pass it as -o <swagger_json_url>")
+        swagger = "DEFAULT_SWAGGER_JSON_URL"
+
+    if not os.path.isabs(output_folder):
+        logging.warning("Provided output folder path is not absolute, support for relative path is not implemented yet.")
+        logging.info(f"Using default ouput folder \"{DEFAULT_OUTPUT_FOLDER}\"")
+        output_folder = DEFAULT_OUTPUT_FOLDER
+    return swagger, output_folder
+        
 
 parser = argparse.ArgumentParser(description='Generates html and pdf format docs for a provided swagger instance')
 parser.add_argument('--swagger_conf_url', "-s",metavar='S', type=str,
                     help='link to swagger json configuration')
 parser.add_argument('--output_folder', "-o",metavar='S', type=str,
-                    help='the folder where the docs will be saved', default="_output")
+                    help='the folder where the docs will be saved', default=DEFAULT_OUTPUT_FOLDER)
 
 args = parser.parse_args()
 
-swagger_conf_url = args.swagger_conf_url or "https://petstore.swagger.io/v2/swagger.json"# or "http://localhost:5000/swagger/v1/swagger.json"
+swagger_conf_url = args.swagger_conf_url
 output_folder = args.output_folder
+
+swagger_conf_url, output_folder = _check_args(swagger_conf_url, output_folder)
 
 swagger_conf = requests.get(swagger_conf_url)
 
