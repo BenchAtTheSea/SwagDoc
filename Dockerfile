@@ -3,7 +3,7 @@ FROM python:slim-buster
 
 
 #Labels as key value pair
-LABEL Maintainer="lorenzo.calcagno"
+LABEL Maintainer="https://github.com/BenchAtTheSea"
 
 # Any working directory can be chosen as per choice like '/' or '/home' etc
 # i have chosen /usr/app/src
