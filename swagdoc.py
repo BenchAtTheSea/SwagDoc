@@ -4,8 +4,18 @@ import requests
 import json
 import argparse
 import logging
-DEFAULT_OUTPUT_FOLDER = "_output"
-DEFAULT_SWAGGER_JSON_URL = "https://petstore.swagger.io/v2/swagger.json"
+from dotenv import load_dotenv
+load_dotenv(".env")
+
+
+DEFAULT_OUTPUT_FOLDER = os.environ.get("DEFAULT_OUTPUT_FOLDER")
+DEFAULT_SWAGGER_JSON_URL = os.environ.get("DEFAULT_SWAGGER_JSON_URL")
+GENERATE_PDF = os.environ.get("GENERATE_PDF") == "True"
+SWAGGER_EDITOR_ENDPOINT = os.environ.get("SWAGGER_EDITOR_ENDPOINT")
+TEMP_ZIP_NAME = os.environ.get("TEMP_ZIP_NAME")
+HTML_FILE_NAME = os.environ.get("HTML_FILE_NAME")
+PDF_FILE_NAME = os.environ.get("PDF_FILE_NAME")
+WKHTMLTOPDF_PATH = os.environ.get("WKHTMLTOPDF_PATH")
 
 def _check_args(swagger:str, output_folder:str):
     if not swagger:
@@ -27,7 +37,7 @@ parser.add_argument('--swagger_conf_url', "-s",metavar='S', type=str,
 parser.add_argument('--output_folder', "-o",metavar='S', type=str,
                     help='the folder where the docs will be saved', default=DEFAULT_OUTPUT_FOLDER)
 parser.add_argument('--generate_pdf', "-pdf",metavar='S', type=bool,
-                    help='whether to generate a pdf or not', default=False)
+                    help='whether to generate a pdf or not', default=GENERATE_PDF)
 
 args = parser.parse_args()
 
@@ -42,26 +52,28 @@ swagger_conf = requests.get(swagger_conf_url)
 python_dict=json.loads(swagger_conf.text)
 
 body = {
-    "lang": "html2",
+    "lang": "html2", # this can in fact support many different format, currently locked to html2 for semplicity
     "spec": python_dict,
     "type": "CLIENT"
 }
 
-file = requests.post("https://generator3.swagger.io/api/generate", json=body)
-with open("some.zip", 'wb') as f:
+file = requests.post(SWAGGER_EDITOR_ENDPOINT, json=body)
+with open(TEMP_ZIP_NAME, 'wb') as f:
         f.write(file.content) 
 
-with zipfile.ZipFile('some.zip') as zf:
-    zf.extract('index.html', output_folder)
+with zipfile.ZipFile(TEMP_ZIP_NAME) as zf:
+    zf.extract(HTML_FILE_NAME, output_folder)
+
+os.remove(TEMP_ZIP_NAME)
     
-html_path = os.path.join(output_folder, "index.html")
+html_path = os.path.join(output_folder, HTML_FILE_NAME)
 
 if generate_pdf:
 
-    output_pdf = os.path.join(output_folder, "docs.pdf")
-
-    # from pyhtml2pdf import converter
-    # converter.convert(f'file:///{html_path}', output_pdf)
+    output_pdf = os.path.join(output_folder, PDF_FILE_NAME)
 
     import pdfkit
-    pdfkit.from_file(html_path, output_pdf, verbose=True, options={"enable-local-file-access": True}, configuration=pdfkit.configuration(wkhtmltopdf="execs/wkhtmltopdf.exe"))
+    if WKHTMLTOPDF_PATH:
+        pdfkit.from_file(html_path, output_pdf, verbose=True, options={"enable-local-file-access": True}, configuration=pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_PATH))
+    else:
+         pdfkit.from_file(html_path, output_pdf, verbose=True, options={"enable-local-file-access": True})

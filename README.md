@@ -5,10 +5,39 @@
 # SwagDoc
 A simple python interface to generate offline html and pdf documentation for swagger interfaces.
 
-# How to use it
+## Initial setup base Python
+
+1. Make sure to have [python3](https://www.python.org/downloads/) installed.
+2. Install the requirements running 
+    > pip install -r requirements.txt
+
+3. If you need your docs in pdf, set WKHTMLTOPDF_PATH in .env to your local binaries path, 
+4. Set your configuration in .env, this is not strictly required, as you can pass ovveride it by providing arguments when running swagdock, but could save you some time
+
+## Known Issues
+
+### PDF generation
+
+Pdf generation relies on [wkhtmltopdf](https://github.com/wkhtmltopdf/packaging/releases/download) binaries to run.
+Working version for windows is already provided inside execs folder, for Linux and MacOS you'll need to install it.
+Theoretically with both Linux and MacOS it should not be needed to set .env WKHTMLTOPDF_PATH.
+Please open an issue if you are having problems with this.
+
+#### Linux
+
+> apt-get install wkhtmltopdf
+
+#### MaxOS
+
+> brew install Caskroom/cask/wkhtmltopdf
+
+
+# Old instructions
+
+## How to use it
 You can directly run the swagdoc.py script using python or use docker
 
-# Install and run with Python
+## Install and run with Python
 You need to install [wkhtmltopdf](https://wkhtmltopdf.org/) first
 
 ## wkhtmltopdf on windows
@@ -21,24 +50,24 @@ After the installation is complete you'll need  to add the installation path to 
 5. Your path will probably look like this *C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe*
 6. After creating or modifying the environment variable, click  Apply  and then  OK  to have the change take effect.
 
-## wkhtmltpdf on linux
+### wkhtmltpdf on linux
 Run this command:
 
 > apt-get update && apt-get install -y wkhtmltopdf 
 
-#### Remember to install the requirements.txt
+##### Remember to install the requirements.txt
 
 > pip install -r requirements.txt
 
-## Run the python script
+### Run the python script
 > python swagdoc.py -s <link_to_swagger_json_configuration> -o <absolute_path_to_output_folder>
 
-# Install and run with docker
+## Install and run with docker
 
 ## Build the image
 > docker build -t swagdoc <path_to_repo>
 
-## Run the docker
+### Run the docker
 Once you built the image you can use run.sh on linux or run.ps1 on windows.
 > run.xx -s <link_to_swagger_json_configuration> -o <absolute_path_to_output_folder>
 

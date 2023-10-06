@@ -1,2 +1,3 @@
 requests
 pdfkit
+python-dotenv
