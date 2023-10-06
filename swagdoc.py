@@ -23,14 +23,17 @@ def _check_args(swagger:str, output_folder:str):
 
 parser = argparse.ArgumentParser(description='Generates html and pdf format docs for a provided swagger instance')
 parser.add_argument('--swagger_conf_url', "-s",metavar='S', type=str,
-                    help='link to swagger json configuration')
+                    help='link to swagger json configuration', default=DEFAULT_SWAGGER_JSON_URL)
 parser.add_argument('--output_folder', "-o",metavar='S', type=str,
                     help='the folder where the docs will be saved', default=DEFAULT_OUTPUT_FOLDER)
+parser.add_argument('--generate_pdf', "-pdf",metavar='S', type=bool,
+                    help='whether to generate a pdf or not', default=False)
 
 args = parser.parse_args()
 
 swagger_conf_url = args.swagger_conf_url
 output_folder = args.output_folder
+generate_pdf = args.generate_pdf
 
 swagger_conf_url, output_folder = _check_args(swagger_conf_url, output_folder)
 
@@ -53,10 +56,12 @@ with zipfile.ZipFile('some.zip') as zf:
     
 html_path = os.path.join(output_folder, "index.html")
 
-output_pdf = os.path.join(output_folder, "docs.pdf")
+if generate_pdf:
 
-# from pyhtml2pdf import converter
-# converter.convert(f'file:///{html_path}', output_pdf)
+    output_pdf = os.path.join(output_folder, "docs.pdf")
 
-import pdfkit
-pdfkit.from_file(html_path, output_pdf, verbose=True, options={"enable-local-file-access": True}, pdfkit.configuration(wkhtmltopdf="path_to_exe"))
+    # from pyhtml2pdf import converter
+    # converter.convert(f'file:///{html_path}', output_pdf)
+
+    import pdfkit
+    pdfkit.from_file(html_path, output_pdf, verbose=True, options={"enable-local-file-access": True}, configuration=pdfkit.configuration(wkhtmltopdf="execs/wkhtmltopdf.exe"))
