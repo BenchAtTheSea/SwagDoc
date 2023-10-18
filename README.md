@@ -34,9 +34,22 @@ You can also override these environment configurations by prompting them when la
 | in line parameter | short in line | overrides | Description |
 | --- | --- | --- | --- |
 | "--swagger_conf_url" | -s | DEFAULT_SWAGGER_JSON_URL | url to swagger json configuration to generate docs on |
-| "--output_folder" | -o | DEFAULT_OUTPUT_FOLDER | path to folder that will contain the outputs |
+| "--output_folder" | -o | DEFAULT_OUTPUT_FOLDER | absolute path to folder that will contain the outputs |
 | "--generate_pdf" | -pdf | GENERATE_PDF | flag to generate docs in pdf format |
 
+## Quick Reference
+
+> python swagdoc.py --swagger_conf_url <swagger_json_url>
+
+> python swagdoc.py -s <swagger_json_url>
+
+> python swagdoc.py --output_folder <abs_path>
+
+> python swagdoc.py -o <abs_path>
+
+> python swagdoc.py --generate_pdf
+
+> python swagdoc.py -pdf
 
 ## Known Issues
 

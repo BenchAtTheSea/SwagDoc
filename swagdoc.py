@@ -37,13 +37,13 @@ parser.add_argument('--swagger_conf_url', "-s",metavar='S', type=str,
 parser.add_argument('--output_folder', "-o",metavar='S', type=str,
                     help='the folder where the docs will be saved', default=DEFAULT_OUTPUT_FOLDER)
 parser.add_argument('--generate_pdf', "-pdf",metavar='S', type=bool,
-                    help='whether to generate a pdf or not', default=GENERATE_PDF)
+                    help='whether to generate a pdf or not', action=argparse.BooleanOptionalAction)
 
 args = parser.parse_args()
 
 swagger_conf_url = args.swagger_conf_url
 output_folder = args.output_folder
-generate_pdf = args.generate_pdf
+generate_pdf = args.generate_pdf == 
 
 swagger_conf_url, output_folder = _check_args(swagger_conf_url, output_folder)
 
@@ -69,7 +69,7 @@ os.remove(TEMP_ZIP_NAME)
     
 html_path = os.path.join(output_folder, HTML_FILE_NAME)
 
-if generate_pdf:
+if generate_pdf or GENERATE_PDF:
 
     output_pdf = os.path.join(output_folder, PDF_FILE_NAME)
 
