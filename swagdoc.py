@@ -61,8 +61,9 @@ file = requests.post(SWAGGER_EDITOR_ENDPOINT, json=body)
 with open(TEMP_ZIP_NAME, 'wb') as f:
         f.write(file.content) 
 
-with zipfile.ZipFile(TEMP_ZIP_NAME) as zf:
-    zf.extract(HTML_FILE_NAME, output_folder)
+with zipfile.ZipFile(TEMP_ZIP_NAME, "r") as zf:
+    zf.getinfo("index.html").filename = HTML_FILE_NAME
+    zf.extract("index.html", output_folder)
 
 os.remove(TEMP_ZIP_NAME)
     
