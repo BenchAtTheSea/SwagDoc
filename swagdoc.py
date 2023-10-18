@@ -43,7 +43,7 @@ args = parser.parse_args()
 
 swagger_conf_url = args.swagger_conf_url
 output_folder = args.output_folder
-generate_pdf = args.generate_pdf == 
+generate_pdf = args.generate_pdf
 
 swagger_conf_url, output_folder = _check_args(swagger_conf_url, output_folder)
 
