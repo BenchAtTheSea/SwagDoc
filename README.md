@@ -1,7 +1,3 @@
-# Silent Contributors
-- https://github.com/sara-ghiglione
-- https://github.com/Alessandro-Lica
-
 # SwagDoc
 A simple python interface to generate offline html and pdf documentation for swagger interfaces.
 
@@ -13,6 +9,18 @@ A simple python interface to generate offline html and pdf documentation for swa
 
 3. If you need your docs in pdf, set WKHTMLTOPDF_PATH in .env to your local binaries path, 
 4. Set your configuration in .env, this is not strictly required, as you can pass ovveride it by providing arguments when running swagdock, but could save you some time
+
+## Environment configuration
+| Entry | Description | Default |
+| --- | --- | --- |
+| DEFAULT_OUTPUT_FOLDER | path to folder that will contain the outputs |  "_output"|
+| DEFAULT_SWAGGER_JSON_URL | url to swagger json configuration to generate docs on |  "https://petstore.swagger.io/v2/swagger.json"|
+| GENERATE_PDF | flag to generate docs in pdf format |  "True"|
+| SWAGGER_EDITOR_ENDPOINT | api endpoint for html docs generation |  "https://generator3.swagger.io/api/generate"|
+| TEMP_ZIP_NAME | name/path of the downloaded zip file from  |  "_temp.zip"|
+| HTML_FILE_NAME | name of the html docs file to generate |  "index2.html"|
+| PDF_FILE_NAME | name of the pdf docs file to generate |  "docs.pdf"|
+| WKHTMLTOPDF_PATH | path to local installation of wkhtmltopdf, leave empty on linux |  "execs\wkhtmltopdf.exe"|
 
 ## Known Issues
 
@@ -30,6 +38,13 @@ Please open an issue if you are having problems with this.
 #### MaxOS
 
 > brew install Caskroom/cask/wkhtmltopdf
+
+
+
+
+
+
+
 
 
 # Old instructions
