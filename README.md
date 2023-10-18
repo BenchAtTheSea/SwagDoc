@@ -11,6 +11,11 @@ A simple python interface to generate offline html and pdf documentation for swa
 4. Set your configuration in .env, this is not strictly required, as you can pass ovveride it by providing arguments when running swagdock, but could save you some time
 
 ## Environment configuration
+Create a new file named ".env", you can copy or rename "template.env".
+Set the following variables as per your needs.
+
+Ideally you can use defaults and only set the url to your swagger instance json configuration and everything should work.
+
 | Entry | Description | Default |
 | --- | --- | --- |
 | DEFAULT_OUTPUT_FOLDER | path to folder that will contain the outputs |  "_output"|
@@ -21,6 +26,17 @@ A simple python interface to generate offline html and pdf documentation for swa
 | HTML_FILE_NAME | name of the html docs file to generate |  "index2.html"|
 | PDF_FILE_NAME | name of the pdf docs file to generate |  "docs.pdf"|
 | WKHTMLTOPDF_PATH | path to local installation of wkhtmltopdf, leave empty on linux |  "execs\wkhtmltopdf.exe"|
+
+## In line params
+
+You can also override these environment configurations by prompting them when launching swagdoc
+
+| in line parameter | short in line | overrides | Description |
+| --- | --- | --- | --- |
+| "--swagger_conf_url" | -s | DEFAULT_SWAGGER_JSON_URL | url to swagger json configuration to generate docs on |
+| "--output_folder" | -o | DEFAULT_OUTPUT_FOLDER | path to folder that will contain the outputs |
+| "--generate_pdf" | -pdf | GENERATE_PDF | flag to generate docs in pdf format |
+
 
 ## Known Issues
 
